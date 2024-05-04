@@ -14,7 +14,8 @@ namespace Parcial_2
 {
     internal class Program
     {
-        List<Empleado> Empleado = new List<Empleado>();
+        static List<Empleado> empleados = new List<Empleado>();
+
         static void Main(string[] args)
         {
             bool salir = false;
@@ -68,7 +69,7 @@ namespace Parcial_2
 
             if (tipoEmpleado == "1")
             {
-                Empleados = new EmpleadoTiempoCompleto(nombre, salario);
+                empleados.Add(new EmpleadoTiempoCompleto(nombre, salario));
             }
             else if (tipoEmpleado == "2")
             {
@@ -76,7 +77,7 @@ namespace Parcial_2
                 int horasTrabajadas = Convert.ToInt32(Console.ReadLine());
                 Console.Write("Salario por hora: ");
                 double salarioPorHora = Convert.ToDouble(Console.ReadLine());
-                Empleados = new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas);
+                empleados.Add(new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas));
             }
             else
             {
@@ -87,7 +88,7 @@ namespace Parcial_2
         static void ListarEmpleados()
         {
             Console.WriteLine("\nLista de empleados:");
-            foreach (var empleado in Empleados)
+            foreach (var empleado in empleados)
             {
                 Console.WriteLine(empleado);
             }
@@ -96,7 +97,7 @@ namespace Parcial_2
         static void CalcularSalarioTotal()
         {
             double salarioTotal = 0;
-            foreach (var empleado in Empleados)
+            foreach (var empleado in empleados)
             {
                 salarioTotal += empleado.CalcularSalario();
             }
@@ -107,17 +108,30 @@ namespace Parcial_2
         {
             using (StreamWriter sw = new StreamWriter("empleados.txt"))
             {
-                //implementar logica para guardar en un archivo
+                foreach (var empleado in empleados)
+                {
+                    sw.WriteLine($"{empleado.Nombre},{empleado.Salario}");
+                }
             }
             Console.WriteLine("\nDatos guardados en empleados.txt");
         }
 
         static void CargarDatos()
         {
-            Empleado.Clear(); // Limpiar la lista actual antes de cargar nuevos datos
+            empleados.Clear(); // Limpiar la lista actual antes de cargar nuevos datos
             try
             {
-               //implementar logica para leer los datos de un archivo
+                using (StreamReader sr = new StreamReader("empleados.txt"))
+                {
+                    string linea;
+                    while ((linea = sr.ReadLine()) != null)
+                    {
+                        string[] partes = linea.Split(',');
+                        string nombre = partes[0];
+                        double salario = Convert.ToDouble(partes[1]);
+                        empleados.Add(new EmpleadoTiempoCompleto(nombre, salario));
+                    }
+                }
                 Console.WriteLine("\nDatos cargados correctamente.");
             }
             catch (FileNotFoundException)
@@ -143,7 +157,7 @@ namespace Parcial_2
             Salario = salario;
         }
 
-        public double CalcularSalario()
+        public virtual double CalcularSalario()
         {
             return Salario;
         }
@@ -155,7 +169,7 @@ namespace Parcial_2
     }
 
     // Clase para representar un empleado a tiempo completo
-    class EmpleadoTiempoCompleto 
+    class EmpleadoTiempoCompleto : Empleado
     {
         public EmpleadoTiempoCompleto(string nombre, double salario) : base(nombre, salario)
         {
@@ -184,5 +198,4 @@ namespace Parcial_2
             return base.ToString() + $", Horas trabajadas: {HorasTrabajadas}, Salario por hora: {SalarioPorHora:C}";
         }
     }
-
 }
