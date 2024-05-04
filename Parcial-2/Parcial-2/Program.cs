@@ -14,7 +14,7 @@ namespace Parcial_2
 {
     internal class Program
     {
-        List<Empleado> empleados = new List<Empleado>();
+        List<Empleado> Empleado = new List<Empleado>();
         static void Main(string[] args)
         {
             bool salir = false;
@@ -68,7 +68,7 @@ namespace Parcial_2
 
             if (tipoEmpleado == "1")
             {
-                empleados.Add(new EmpleadoTiempoCompleto(nombre, salario));
+                Empleado = new EmpleadoTiempoCompleto(nombre, salario);
             }
             else if (tipoEmpleado == "2")
             {
@@ -76,7 +76,7 @@ namespace Parcial_2
                 int horasTrabajadas = Convert.ToInt32(Console.ReadLine());
                 Console.Write("Salario por hora: ");
                 double salarioPorHora = Convert.ToDouble(Console.ReadLine());
-                empleados.Add(new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas));
+                Empleado = new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas);
             }
             else
             {
@@ -87,7 +87,7 @@ namespace Parcial_2
         static void ListarEmpleados()
         {
             Console.WriteLine("\nLista de empleados:");
-            foreach (var empleado in empleados)
+            foreach (var empleado in Empleado)
             {
                 Console.WriteLine(empleado);
             }
@@ -96,7 +96,7 @@ namespace Parcial_2
         static void CalcularSalarioTotal()
         {
             double salarioTotal = 0;
-            foreach (var empleado in empleados)
+            foreach (var empleado in Empleado)
             {
                 salarioTotal += empleado.CalcularSalario();
             }
