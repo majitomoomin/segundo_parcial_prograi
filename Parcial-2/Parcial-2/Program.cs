@@ -68,7 +68,7 @@ namespace Parcial_2
 
             if (tipoEmpleado == "1")
             {
-                Empleado = new EmpleadoTiempoCompleto(nombre, salario);
+                Empleados = new EmpleadoTiempoCompleto(nombre, salario);
             }
             else if (tipoEmpleado == "2")
             {
@@ -76,7 +76,7 @@ namespace Parcial_2
                 int horasTrabajadas = Convert.ToInt32(Console.ReadLine());
                 Console.Write("Salario por hora: ");
                 double salarioPorHora = Convert.ToDouble(Console.ReadLine());
-                Empleado = new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas);
+                Empleados = new EmpleadoPorHoras(nombre, salarioPorHora, horasTrabajadas);
             }
             else
             {
@@ -87,7 +87,7 @@ namespace Parcial_2
         static void ListarEmpleados()
         {
             Console.WriteLine("\nLista de empleados:");
-            foreach (var empleado in Empleado)
+            foreach (var empleado in Empleados)
             {
                 Console.WriteLine(empleado);
             }
@@ -96,7 +96,7 @@ namespace Parcial_2
         static void CalcularSalarioTotal()
         {
             double salarioTotal = 0;
-            foreach (var empleado in Empleado)
+            foreach (var empleado in Empleados)
             {
                 salarioTotal += empleado.CalcularSalario();
             }
@@ -114,7 +114,7 @@ namespace Parcial_2
 
         static void CargarDatos()
         {
-            empleados.Clear(); // Limpiar la lista actual antes de cargar nuevos datos
+            Empleado.Clear(); // Limpiar la lista actual antes de cargar nuevos datos
             try
             {
                //implementar logica para leer los datos de un archivo
